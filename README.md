@@ -19,51 +19,61 @@ README.md      - This documentation file
 ### Prerequisites
 
 - Python 3.6 or higher
-- [TensorFlow](https://www.tensorflow.org/) (Keras API used within it)
+- [TensorFlow](https://www.tensorflow.org/) (which provides the Keras API)
 - OpenCV
 - NumPy, Pandas, Matplotlib, and Seaborn
-- Other dependencies listed in the requirements file (if available)
 
 ### Installation
 
 1. **Clone the repository:**
 
    ```sh
-   git clone https://your-repository-url.git
+   git clone https://github.com/monijesuj/Road-sign-classification-on-keras.git
    cd Road-sign-classification-on-keras
    ```
 
 2. **Create a virtual environment and install dependencies:**
 
+   Create a virtual environment:
+
    ```sh
    python -m venv venv
    source venv/bin/activate      # On Windows use `venv\Scripts\activate`
-   pip install -r requirements.txt
    ```
 
-   _Note: Create a `requirements.txt` if one is not already provided._
+    Requirements:
 
-### Folder Organization
+   ```txt
+   tensorflow>=2.0
+   opencv-python
+   numpy
+   pandas
+   matplotlib
+   seaborn
+   ```
+
+
+## Folder Organization
 
 - **/src:** Contains all source code for training, testing, and inference.
-  - [`chatpi.py`](chatpi.py): Preprocesses images and runs model training and evaluation.
-  - [`ann.py`](ann.py): Serves as an entry point for model inference.
-  - [`convert.py`](convert.py): Responsible for conversion tasks of models (if applicable).
-  - [`modelchange.py`](modelchange.py): Contains legacy TensorFlow v1 code for model conversion.
+  - [`chatpi.py`](src/chatpi.py): Preprocesses images and runs model training and evaluation.
+  - [`ann.py`](src/ann.py): Serves as an entry point for model inference.
+  - [`convert.py`](src/convert.py): Responsible for conversion tasks of models.
+  - [`modelchange.py`](src/modelchange.py): Contains legacy TensorFlow v1 code for model conversion.
   - Training scripts (`Training.py`, `traintrain.py`, `trainv5.py`): Explore different training configurations and architectures.
 - **/models:** Stores all models and weights generated throughout the project.
 - **/data:** Holds CSV files and any additional data required for model training or evaluation.
-- **/notebooks:** Contains Jupyter notebooks (e.g., [`BotProject.ipynb`](BotProject.ipynb)) used for prototyping, visualization, and experiments.
+- **/notebooks:** Contains Jupyter notebooks (e.g., [`BotProject.ipynb`](notebooks/BotProject.ipynb)) used for prototyping, visualization, and experiments.
 
 ## Usage
 
 ### Data Preparation
 
-Place your training and testing data (images and labels) in the appropriate locations. The project uses CSV files and a folder of images to create datasets. Check the data loading sections in [`chatpi.py`](chatpi.py) for guidance on file structure.
+Place your training and testing data (images and labels) in the appropriate locations. The project uses CSV files and a folder of images to create datasets. Check the data loading sections in [`chatpi.py`](src/chatpi.py) for guidance on file structure.
 
 ### Training
 
-Adjust parameters such as image size, batch size, and epochs in the training scripts in `/src`. For instance, [`chatpi.py`](chatpi.py) uses a batch size of 64 and resizes images to 128×128 for training.
+Adjust parameters such as image size, batch size, and epochs in the training scripts in `/src`. For instance, [`chatpi.py`](src/chatpi.py) uses a batch size of 64 and resizes images to 128×128 for training.
 
 Run the training script:
 
@@ -71,7 +81,7 @@ Run the training script:
 python src/chatpi.py
 ```
 
-Alternatively, use the provided Jupyter Notebook in `/notebooks` for an interactive experience:
+Alternatively, you can use the provided Jupyter Notebook:
 
 ```sh
 jupyter notebook notebooks/BotProject.ipynb
@@ -79,41 +89,38 @@ jupyter notebook notebooks/BotProject.ipynb
 
 ### Evaluation
 
-After training, the models can be evaluated using the test datasets. The scripts print metrics including accuracy and loss after evaluation. Look inside the training scripts and notebook cells for evaluation commands.
+After training, evaluate your model using the test datasets. The scripts print metrics such as accuracy and loss after evaluation. Refer to the training scripts and notebook cells for evaluation commands.
 
 ### Model Conversion
 
-For model conversion, such as converting to TensorFlow Lite:
-- Use [`trainv5.py`](trainv5.py) for training and conversion to `.h5` or `.tflite` as required.
-- Legacy conversion code exists in [`modelchange.py`](modelchange.py) for frozen graph conversion (TensorFlow v1). Remove this if you rely solely on TensorFlow v2 workflows.
+For model conversion (e.g., converting to TensorFlow Lite), use [`trainv5.py`](src/trainv5.py). Legacy conversion code exists in [`modelchange.py`](src/modelchange.py) for frozen graph conversion (TensorFlow v1) - remove this if you rely solely on TensorFlow v2 workflows.
 
 ### Inference
 
-For inference, use [`ann.py`](ann.py) which processes a single image using the trained model, predicts the road sign, and then triggers motor control logic accordingly.
+For inference, use [`ann.py`](src/ann.py) which processes a single image using the trained model, predicts the road sign, and then triggers motor control logic accordingly.
 
 ## Technical Details
 
 - **Neural Network Architecture:**  
-  The project uses Convolutional Neural Networks (CNNs) for feature extraction and classification. Architectures explored include variations of MobileNet and custom CNNs. See [`BotProject.ipynb`](notebooks/BotProject.ipynb) for design iterations and experiments.
+  The project uses Convolutional Neural Networks (CNNs) for feature extraction and classification. Architectures include variations of MobileNet and custom CNNs. See [`BotProject.ipynb`](notebooks/BotProject.ipynb) for detailed design iterations and experiments.
 
 - **Data Augmentation:**  
-  Data augmentation is applied in scripts such as [`trainv5.py`](trainv5.py) to improve model generalization with techniques including shear, zoom, and horizontal flipping.
+  Data augmentation is used in scripts (like [`trainv5.py`](src/trainv5.py)) with techniques such as shear, zoom, and horizontal flipping to improve generalization.
 
 - **Callbacks and Early Stopping:**  
-  During training, callbacks like early stopping are used to avoid overfitting by monitoring validation loss.
+  Early stopping is employed during training to avoid overfitting by monitoring validation loss.
 
 - **Visualization:**  
-  Matplotlib and Seaborn are used to visualize training progress (accuracy, loss curves) and data distributions.
+  Training progress (accuracy and loss curves) and data distributions are visualized using Matplotlib and Seaborn.
 
 ## Future Improvements
 
 - Consolidate training scripts into a single configurable module.
-- Update legacy TensorFlow v1 conversion code if moving entirely to TensorFlow v2.
+- Update or remove legacy TensorFlow v1 conversion code.
 - Enhance data preprocessing routines and add logging.
 - Add unit tests to improve code reliability.
 
 ## Contact
 
 For further questions or discussions, please contact the project maintainer or open an issue on GitHub.
-
 
